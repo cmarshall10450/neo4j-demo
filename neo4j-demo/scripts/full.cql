@@ -7,7 +7,7 @@ CREATE CONSTRAINT ON (movie:Movie) ASSERT movie.id IS UNIQUE
 // ------------------------------------------------------------------------------------------
 
 // Create nodes for all users
-LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/users.csv" AS row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/neo4j-demo/users.csv" AS row
 MERGE (user:User { id: toInt(row.id) })
 SET user.name = row.first_name + " " + row.last_name
 RETURN user
@@ -15,7 +15,7 @@ RETURN user
 // ------------------------------------------------------------------------------------------
 
 // Create nodes for all movies
-LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/movies.csv" AS row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/neo4j-demo/movies.csv" AS row
 MERGE (movie:Movie { id: toInt(row.id) })
 SET movie.title = row.title
 RETURN movie
@@ -27,7 +27,7 @@ RETURN user, movie
 // ------------------------------------------------------------------------------------------
 
 // Create relationships between users and movies
-LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/ratings.csv" AS row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/neo4j-demo/ratings.csv" AS row
 MATCH (user:User { id: toInt(row.user_id) }), (movie:Movie { id: toInt(row.movie_id) })
 MERGE (user)-[:RATED {rating: toInt(row.score)}]->(movie)
 RETURN user, movie
@@ -50,7 +50,7 @@ SET   s.similarity = xyDotProduct / (xLength * yLength)
 CREATE (me:User { id: 16 })
 SET    me.name = "Chris Marshall"
 
-LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/my_ratings.csv" as row
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/cmarshall10450/neo4j-demo/master/neo4j-demo/my_ratings.csv" as row
 MATCH (me:User { name: "Chris Marshall" }), (movie:Movie { id: toInt(row.movie_id) })
 MERGE (me)-[:RATED { rating: toInt(row.score) }]->(movie)
 
